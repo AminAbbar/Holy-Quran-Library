@@ -1,0 +1,482 @@
+@import url('../fonts/font.css');
+:root {
+    --color-primary: #4d4afd;
+    --color-error: #fd4a4a;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #edeffd;
+    --color-info-dark: #7d8da1;
+    --color-info-light: #dce1eb;
+    --color-dark: #363949;
+    --color-light: rgba( 0, 0, 0, 0.4);
+    --color-light1: rgba( 0, 0, 0, 0.2);
+    --box-shadow: 0 0 0.4rem var( --color-light);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #1d1f29;
+    --color-background: #181a1e;
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    list-style: none;
+    appearance: none;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: var(--color-dark);
+}
+
+html {
+    font-size: 14px;
+    direction: rtl;
+}
+
+img {
+    display: none;
+}
+
+img[src] {
+    display: block;
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+h3 {
+    font-size: 0.87rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+
+h5 {
+    font-size: 0.77rem;
+}
+
+small {
+    font-size: 0.75rem;
+}
+
+.primary {
+    color: var(--color-primary);
+}
+
+.danger {
+    color: var(--color-error);
+}
+
+.success {
+    color: var(--color-success);
+}
+
+.white {
+    color: #fff;
+}
+
+.warning {
+    color: var(--color-warning);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    font-family: Cairo, sans-serif;
+    font-size: 0.88rem;
+    background: var(--color-background);
+    user-select: none;
+    overflow: hidden;
+    color: var(--color-white);
+}
+
+.navgtion {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 0.1rem;
+    width: 100%;
+    -webkit-app-region: drag;
+    background-color: var(--color-light);
+}
+
+.nav {
+    display: flex;
+}
+
+.navgtion .navItem {
+    width: 30px;
+    height: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-color: transparent;
+    transition: 500ms;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+}
+
+.navgtion .navItem:hover {
+    background-color: var(--color-primary);
+}
+
+.navgtion .navItem:active {
+    background-color: var(--color-light);
+}
+
+.navgtion h2 {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-transform: uppercase;
+}
+
+#closebtn {
+    background-image: url('../imgs/close.png');
+}
+
+#maximize {
+    background-image: url('../imgs/maximize.png');
+}
+
+#minimize {
+    background-image: url('../imgs/minimize.png');
+}
+
+.SearchBox {
+    width: 100%;
+    height: 60px;
+    padding: 0.8rem 1rem;
+    box-sizing: border-box;
+    display: flex;
+    gap: 1rem;
+}
+
+.SearchBox input {
+    border: 2px solid var(--color-primary);
+    height: 2.5rem;
+    border-radius: 10px;
+    background-color: #101316;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: var(--color-white);
+    font-weight: bold;
+    transition: 300ms all ease-in;
+}
+
+.SearchBox input:focus {
+    transform: scale(1.05);
+}
+
+.SearchBox .downloadAllBox {
+    transition: 300ms all ease-in;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin-top: -2px;
+    transform: scaleY(0.9);
+    padding: 0 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-primary);
+}
+
+.SearchBox .downloadAllBox:hover {
+    transform: scaleX(1.1);
+    cursor: pointer;
+    background-color: var(--color-primary);
+}
+
+.SearchBox .downloadAllBox span {
+    transform: scale(0.7);
+    margin-bottom: -5px;
+}
+
+.SearchBox .downloadAllBox div h3 {
+    font-size: 0.7rem;
+}
+
+.SearchBox .downloadAllBox div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+
+/* scrollBarStyle */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-dark-variant);
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+
+/* scrollBarStyle */
+
+
+/*buttons css*/
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.container .warp {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 60px);
+    /*200px*/
+    overflow-y: auto;
+}
+
+.container .warp table {
+    width: 100%;
+    height: fit-content;
+    white-space: nowrap;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 1rem;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.container .warp table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.container .warp table thead tr {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    text-align: right;
+    font-weight: bold;
+}
+
+.container .warp table th,
+.container .warp table td {
+    padding: 0.5rem 1rem;
+}
+
+.container .warp table tbody tr {
+    border-bottom: 1px solid var(--color-dark);
+    box-shadow: var(--box-shadow);
+}
+
+.container .warp table tbody tr:nth-of-type(even) {
+    background-color: var(--color-dark-variant)
+}
+
+.container .warp table tbody tr:last-of-type {
+    border-bottom: 4px solid var(--color-primary);
+}
+
+.container .warp table tbody tr.active {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 1rem;
+}
+
+.options .selectPlay,
+.options .deleteitem {
+    opacity: 0.7;
+}
+
+.options .selectPlay:hover,
+.options .deleteitem:hover {
+    transition: all 500ms;
+    cursor: pointer;
+    opacity: 1;
+    transform: scale(1.2) rotate(360deg);
+}
+
+.downloadInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: 500ms all;
+}
+
+.downloadInfo span {
+    padding-right: 10px;
+    transition: 500ms all;
+}
+
+.downloadInfo span:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: var(--color-primary);
+}
+
+
+/************************************ player style ***********************/
+
+.PlayerContainer {
+    width: 100%;
+    height: 105px;
+    background-color: #101316;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    color: var(--color-primary);
+    transition: all 300ms;
+    transform: translateY(200px);
+}
+
+.PlayerContainer input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    display: none;
+    background: var(--color-dark-variant);
+    outline: none;
+    opacity: 1;
+    border-radius: 10px;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    direction: ltr;
+}
+
+.PlayerContainer .left input:hover {
+    opacity: 1;
+}
+
+.PlayerContainer input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+}
+
+.PlayerContainer .middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: -50px;
+}
+
+.PlayerContainer .middle .controllers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 400px;
+}
+
+.PlayerContainer .middle .controllers .material-icons-sharp {
+    transition: all 300ms;
+    cursor: pointer;
+}
+
+#prevBtn {
+    transform: rotate(180deg);
+}
+
+#prevBtn:hover {
+    transform: scale(1.2) rotate(180deg);
+}
+
+.PlayerContainer .middle .controllers .material-icons-sharp:hover {
+    transform: scale(1.2);
+}
+
+.PlayerContainer .middle .controllers span {
+    font-size: 2rem;
+}
+
+.PlayerContainer .middle .bar h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.PlayerContainer .middle .bar input {
+    transition: all 500ms;
+}
+
+.PlayerContainer .middle .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.PlayerContainer .left input:hover~span {
+    color: var(--color-primary);
+    background-color: #111e88;
+}
+
+.left {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 0.5rem;
+    width: 120px;
+}
+
+.left input {
+    opacity: 0.5;
+    transition: all 500ms;
+}
+
+.right {
+    color: var(--color-warning);
+}

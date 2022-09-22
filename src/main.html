@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="./fonts/googleIcons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="./js/slider-lower.js"></script>
+    <title>Holy Quran</title>
+</head>
+
+<body>
+    <div class="navgtion">
+        <div class="nav">
+            <div id="minimize" class="navItem"></div>
+            <div id="maximize" class="navItem"></div>
+            <div id="closebtn" class="navItem"></div>
+        </div>
+        <div>
+            <h2>القرآن الكريم</h2>
+        </div>
+    </div>
+    <div class="container">
+        <div class="SearchBox">
+            <input type="text" id="SearchInput" placeholder="البحث بلأسم">
+            <div id="downloadAll" class="downloadAllBox">
+                <h3>تحميل كل السور</h3>
+                <div>
+                    <span class="material-icons-sharp">cloud_download</span>
+                    <h3 id="downloadAllSize" class="warning">2 mb</h3>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="warp">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>السورة</th>
+                        <th>القارئ</th>
+                        <th>المدة</th>
+                        <th>الحالة</th>
+                        <th>الخيارات</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+
+        </div>
+        <div class="PlayerContainer">
+            <div class="right">
+                <h1 id="currentTitle">سورة البقرة</h1>
+                <h3 id="currentReaderTitle">ماهر المعيقيلي</h3>
+            </div>
+            <div class="middle">
+                <div class="controllers">
+                    <span class="repeatToggle material-icons-sharp">repeat</span>
+                    <span id="nextBtn" class="material-icons-sharp">fast_forward</span>
+                    <span class="playpauseToggle material-icons-sharp">play_circle</span>
+                    <span id="prevBtn" class="material-icons-sharp">fast_forward</span>
+                    <span class="material-icons-sharp"> shuffle</span>
+                </div>
+                <div class="bar">
+                    <h3 id="maxLength">120:20</h3>
+                    <input type="range" max="100" value="0" id="progressbar">
+                    <h3 id="currentLength">20:20</h3>
+                </div>
+            </div>
+            <div class="left">
+                <span class="material-icons-sharp">volume_up</span>
+                <input type="range" max="100" value="100" id="volume">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const myRanges = new WebkitInputRangeFillLower({
+                selectors: ['progressbar', 'volume'],
+                color: '#3935ff'
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{
+    "name": "holy-quran-library",
+    "version": "0.0.1",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "electron-builder"
+    },
+    "build": {
+        "publish": [{
+            "provider": "github",
+            "owner": "AminAbbar",
+            "repo": "Holy-Quran-Library",
+            "private": false
+        }]
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "fs": "^0.0.1-security",
+        "get-mp3-duration": "^1.0.0",
+        "path": "^0.12.7",
+        "request": "^2.88.2",
+        "url-file-size": "^1.0.4"
+    },
+    "devDependencies": {
+        "electron": "^20.1.4",
+        "electron-builder": "^23.3.3"
+    }
+}
