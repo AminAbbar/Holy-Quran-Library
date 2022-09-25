@@ -1,0 +1,192 @@
+/* styles.css */
+
+@import url('../fonts/font.css');
+
+/*root*/
+
+
+/* Defining the variables for the CSS. */
+
+h1 {
+    color: var(--color-primary);
+    ;
+}
+
+:root {
+    --color-primary: #6e6cff;
+    --color-primary1: #605df1;
+    --color-vote: #ff3366;
+    --color-danger: #ff7782;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-light: #dce1eb;
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-light1: rgba(132, 139, 200, 0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+
+/* A class that is used to change the theme of the app. */
+
+.dark-theme-variables {
+    --color-background: #181a1e;
+    /* --color-white: #202528; */
+    --color-white: linear-gradient(45deg, #16171b, #1a1c20);
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba( 0, 0, 0, 0.4);
+    --color-light1: rgba( 0, 0, 0, 0.2);
+    --box-shadow: 0 2rem 3rem var( --color-light);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    list-style: none;
+    appearance: none;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: var(--color-dark);
+}
+
+
+/* Making the image take up the entire width of the parent element. */
+
+img {
+    display: none;
+}
+
+img[src] {
+    display: block;
+}
+
+
+/* Setting the font-weight and font-size of the h1 tag. */
+
+h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+}
+
+h3 {
+    font-size: 0.87rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+
+h5 {
+    font-size: 0.77rem;
+}
+
+small {
+    font-size: 0.75rem;
+}
+
+.primary {
+    color: var(--color-primary);
+}
+
+.danger {
+    color: var(--color-danger);
+}
+
+.success {
+    color: var(--color-success);
+}
+
+.warning {
+    color: var(--color-warning);
+}
+
+html {
+    font-size: 14px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: poppins, sans-serif;
+    font-size: 0.88rem;
+    background: var(--color-background);
+    user-select: none;
+    overflow: hidden;
+    color: var(--color-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.warp {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.progressContiner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.progressContiner button {
+    border-radius: var(--border-radius-1);
+    padding: 0.9rem 1.6rem;
+    background-color: var(--color-primary);
+    margin-top: 0.4rem;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: all 300ms ease;
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.progressContiner button:hover {
+    transform: scale(1.05);
+}
+
+.downloadProgress {
+    background-color: #0f1013;
+    width: 70%;
+    height: 4px;
+    content: '';
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.downloadProgress div {
+    width: 50%;
+    background-color: var(--color-primary);
+}
