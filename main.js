@@ -33,7 +33,7 @@ const callMainWindow = async() => {
         frame: false,
         show: false,
         webPreferences: {
-            devTools: true,
+            devTools: false,
             preload: path.join(__dirname, './src/js/MainWindow.js'),
             sandbox: false
         }
