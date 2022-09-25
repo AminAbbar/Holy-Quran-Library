@@ -4,26 +4,24 @@ const path = require('path')
 const fs = require('fs')
 const getMP3Duration = require('get-mp3-duration')
 const ufs = require("url-file-size");
+const axios = require('axios')
 const request = require('request')
+let filesDir
+filesDir = path.join(__dirname, '../../../../../../../../.holyQuranData/')
+    //////filesDir = path.join(__dirname, '../../../../../.holyQuranData/')
 
 
-console.log(path.join(__dirname, '../../../'))
 
-
-function showDownloadingProgress(received, total, btn) {
-    let percentage = ((received * 100) / total).toFixed(2);
-    btn.classList.remove('material-icons-sharp')
-
-
-    btn.classList.add('success')
-    btn.textContent = `${percentage}%`
-    btn.style.paddingRight = 0
-
-    // console.log(percentage + "% | " + received + " bytes downloaded out of " + total + " bytes.");
+if (!fs.existsSync(filesDir)) {
+    fs.mkdirSync(filesDir);
 }
 
 
+
+
 window.addEventListener('DOMContentLoaded', () => {
+
+
 
             const navCloseBtn = document.getElementById('closebtn')
             const navMinimizeBtn = document.getElementById('minimize')
@@ -45,15 +43,58 @@ window.addEventListener('DOMContentLoaded', () => {
             const PrevButton = document.getElementById('prevBtn')
             const repeatToggle = document.querySelector('.repeatToggle')
             const repeatMode = 0
+            const SelectorContinerToggle = document.querySelector('.selectedBox')
+            const selectorBox = document.querySelector('.optionsBox')
+            const ReadersContiner = document.querySelector('.readerOptions')
+            const currentReaderInput = document.getElementById('currentReaderInput')
+            const currentReaderOption = document.getElementById('currentReaderOption')
             let deleteBtns = document.querySelectorAll('.deleteitem')
             let audio = document.createElement('audio')
             let CurrentPlay = false
             let curretnPlayUpdater
-            let suwra = require('../suwra.json')
+            let suwra = require(`../suwar.json`)[0]
+            currentReaderInput.addEventListener('input', () => {
+                ReadersContiner.innerHTML = ``
+
+                require(`../suwar.json`).forEach((r) => {
+                    if (r[0].reader.replace('إ', 'ا').replace('أ', 'ا').replace('آ', 'ا').replace('ؤ', 'و').includes(currentReaderInput.value.replace('إ', 'ا').replace('أ', 'ا').replace('آ', 'ا').replace('ؤ', 'و'))) {
+                        ReadersContiner.innerHTML += `<div  class="option">${r[0].reader}</div>`
+                    }
+                })
+                ReadersContiner.querySelectorAll('.option').forEach((option, i) => {
+                    option.addEventListener('click', () => {
+                        SelectorContinerToggle.children[1].classList.toggle('active-selector')
+                        selectorBox.classList.toggle('active-selector')
+                        currentReaderOption.textContent = option.textContent
+                        suwra = require(`../suwar.json`)[i]
+                        loadSuwra()
+
+                    })
+                })
+            })
+            ReadersContiner.innerHTML = ``
+            require(`../suwar.json`).forEach((r) => {
+                ReadersContiner.innerHTML += `<div  class="option">${r[0].reader}</div>`
+
+            })
+            ReadersContiner.querySelectorAll('.option').forEach((option, i) => {
+                option.addEventListener('click', () => {
+                    SelectorContinerToggle.children[1].classList.toggle('active-selector')
+                    selectorBox.classList.toggle('active-selector')
+                    currentReaderOption.textContent = option.textContent
+                    suwra = require(`../suwar.json`)[i]
+                    loadSuwra()
+
+                })
+            })
+
 
             repeatToggle.style.color = '#fff'
             repeatToggle.style.opacity = '0.5'
-
+            SelectorContinerToggle.addEventListener('click', () => {
+                SelectorContinerToggle.children[1].classList.toggle('active-selector')
+                selectorBox.classList.toggle('active-selector')
+            })
             const progressBar = document.getElementById('progressbar')
             progressBar.addEventListener('input', () => {
                 audio.currentTime = (audio.duration * progressBar.value) / 100
@@ -112,7 +153,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         suwra.forEach(async(s, i) => {
 
                                     let state
-                                    if (fs.existsSync(path.join(__dirname, `../data/${s.name}.mp3`))) {
+                                    if (fs.existsSync(`${filesDir}${s.reader}/${s.name}.mp3`)) {
                                         state = 2
                                     } else {
                                         state = 0
@@ -154,7 +195,7 @@ SelectBtn.forEach((btn, i)=>{
         if (!audio.src) {
             CallPlayerConitner()
         }
-        CheckFileState(audio, path.join(__dirname, `../data/${suwra[i].name}.mp3`), `${suwra[i].url}`)
+        CheckFileState(audio, `${filesDir}${suwra[i].reader}/${suwra[i].name}.mp3`, `${suwra[i].url}`)
         formatPreviousAudio()
         CurrentPlay = { 'state': true, 'index': i }
         document.getElementById(i).classList.add('active')
@@ -206,7 +247,7 @@ SelectBtn.forEach((btn, i)=>{
         })
     }
     function DeleteDownload(i){
-        fs.unlink(path.join(__dirname, `../data/${suwra[i].name}.mp3`),err=>{
+        fs.unlink(`${filesDir}${suwra[i].reader}/${suwra[i].name}.mp3`,err=>{
             if(err)console.log(err.message);
             
         })
@@ -216,34 +257,24 @@ SelectBtn.forEach((btn, i)=>{
         let sizeTotal = 0 
         suwra.forEach(async(s, i) => {
             let state
-            if (fs.existsSync(`./src/data/${s.name}.mp3`)) {
+            if (fs.existsSync(`${filesDir}${s.reader}/${s.name}.mp3`)) {
                 state = 2
             } else {
                 state = 0
                 sizeTotal += +s.size
             }
+
             quranTable.innerHTML +=
                 `<tr id="${i}">
     <td>${i + 1}</td>
     <td>${s.name}</td>
     <td>${s.reader}</td>
-    <td id="len${i}">${s.duration ? s.duration:`03:00`}</td>
-    ${state == 2 ? `<td state="${state}" class="success" id="state${i}">محمّل</td>` : `<td state="${state}" id="state${i}"><div class="downloadInfo"><span  target="${i}" class="downloadBtn material-icons-sharp">cloud_download</span><h3 class="warning">${byteHandler(s.size , 2)}</h3></div></td>`}
+    <td id="len${i}">${s.duration ? msHandler(s.duration * 1000) :`03:00`}</td>
+    ${state == 2 ? `<td state="${state}" class="success" id="state${i}">محمّل</td>` : `<td state="${state}" id="state${i}"><div class="downloadInfo"><span  target="${i}" class="downloadBtn material-icons-sharp">cloud_download</span><h3 class="warning">${byteHandler(+s.size)}</h3></div></td>`}
     <td class="options"><span target="${i}" class="selectPlay primary material-icons-sharp">play_circle</span>${state == 2? `<span class="deleteitem danger material-icons-sharp">remove_circle_outline</span>`: ``}</td>
     </tr>`
-                    //                     let arry = require('../suwra.json')
-                    //                      let url = i + 1 > 10 ? `https://server12.mp3quran.net/download/maher/${i + 1 > 100 ? i + 1 : `0`+ (i + 1)}.mp3` : `https://server12.mp3quran.net/download/maher/00${i + 1}.mp3`
-                    //                      console.log(url)
-                    //  const size = ufs(url).then(d => { return d;}).catch(err => {console.log(err.message)})
-                    //
-                    //      arry[i] = {
-                    //          'name': s.name,
-                    //          'reader': s.reader,
-                    //          'url':url,
-                    //          'size': await size
-                    //      }
-                    //      console.log(arry)
-                    //      fs.writeFileSync('suwra.json', JSON.stringify(arry).replaceAll(',' , ', \n'));
+                 
+
 
                 })
                 let SelectBtn = document.querySelectorAll('.selectPlay')
@@ -255,13 +286,13 @@ SelectBtn.forEach((btn, i)=>{
                    
                 }else{
                     if(downloadAllBtn)downloadAllBtn.style.display = 'none' ;
-                     console.log('d')
+           
                 }
                 const downloadBtn = document.querySelectorAll('.downloadBtn')
                 if (downloadBtn) {
                     Array.from(downloadBtn).forEach((btn) => {
                         btn.addEventListener('click', () => {
-                            download(suwra[+btn.getAttribute('target')].url, `./src/data/${suwra[+btn.getAttribute('target')].name + `.temp`}`, btn ,+btn.getAttribute('target'))
+                            download(suwra[+btn.getAttribute('target')].url, `${filesDir}${suwra[+btn.getAttribute('target')].reader}/${suwra[+btn.getAttribute('target')].name + `.temp`}`, btn ,+btn.getAttribute('target'))
                         })
                     })
                 }
@@ -284,13 +315,15 @@ SelectBtn.forEach((btn, i)=>{
         MaxLength.textContent = msHandler(audio.duration * 1000)
     }
     function download(installerfileURL, installerfilename, btn, i, ) {
-
-        // Variable to save downloading progress
-        var received_bytes = 0;
-        var total_bytes = 0;
+        let received_bytes = 0;
+        let total_bytes = 0;
+       const readerDir = installerfilename.slice(0,-installerfilename.split('/')[1].length)
     
-        var outStream = fs.createWriteStream(`${installerfilename}`);
-    
+        if (!fs.existsSync(readerDir)){
+            fs.mkdirSync(readerDir);
+        }
+        const outStream = fs.createWriteStream(`${installerfilename}`);
+        
         request
             .get(installerfileURL)
             .on('error', function(err) {
@@ -304,16 +337,15 @@ SelectBtn.forEach((btn, i)=>{
                 showDownloadingProgress(received_bytes, total_bytes, btn);
             })
             .pipe(outStream);
-        outStream.on("finish", () => {
+            outStream.on("finish", () => {
             outStream.close();
             document.getElementById(`state${i}`).innerHTML = `محمّل`
             document.getElementById(`state${i}`).classList.add('success')
             let nName = installerfilename.replace('.temp', '.mp3')
             fs.rename(installerfilename, nName, () => {
-                const buffer = fs.readFileSync(`${nName}`)
-                document.getElementById(`len${i}`).textContent = msHandler(getMP3Duration(buffer))
-                console.log(getMP3Duration(buffer))
-                updateJson(msHandler(getMP3Duration(buffer)), nName.split('/')[3].replaceAll('.mp3', ''))
+                //const buffer = fs.readFileSync(`${nName}`)
+                                                                          // document.getElementById(`len${i}`).textContent = msHandler(getMP3Duration(buffer))
+               // updateJson(msHandler(getMP3Duration(buffer)), nName.slice(0,-4))
                 loadSuwra()
             })
     
@@ -321,6 +353,17 @@ SelectBtn.forEach((btn, i)=>{
     
         });
     }; 
+    function showDownloadingProgress(received, total, btn) {
+        let percentage = ((received * 100) / total).toFixed(2);
+        btn.classList.remove('material-icons-sharp')
+    
+    
+        btn.classList.add('success')
+        btn.textContent = `${percentage}%`
+        btn.style.paddingRight = 0
+    
+        // console.log(percentage + "% | " + received + " bytes downloaded out of " + total + " bytes.");
+    }
     downloadAllBtn.addEventListener('click',()=>{
         downloadAllBtn.disabled = true;
         downloadAllBtn.style.opacity = '0.3'
@@ -369,31 +412,31 @@ SelectBtn.forEach((btn, i)=>{
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
     }
 
-    async function updateJson(duration, NAME) {
-        if (duration) {
-            let based = suwra
-            Array.from(based).forEach((s, i) => {
-    
-                let arry = suwra
-    
-                if (s.name == NAME) {
-    
-                    arry[i] = {
-                        'name': s.name,
-                        'reader': s.reader,
-                        'url': s.url,
-                        'size': s.size,
-                        'duration': duration
-                    }
-                    fs.writeFileSync('./src/suwra.json', JSON.stringify(arry).replaceAll(',', ', \n'));
-                    suwra = require('../suwra.json')
-                }
-            })
-    
-        }
-    
-    
-    }
+    //async function updateJson(duration, NAME) {
+    //    if (duration) {
+    //        let based = suwra
+    //        Array.from(based).forEach((s, i) => {
+    //
+    //            let arry = suwra
+    //
+    //            if (s.name == NAME) {
+    //
+    //                arry[i] = {
+    //                    'name': s.name,
+    //                    'reader': s.reader,
+    //                    'url': s.url,
+    //                    'size': s.size,
+    //                    'duration': duration
+    //                }
+    //                fs.writeFileSync(`./src/suwar.json`, JSON.stringify(arry).replaceAll(',', ', \n'));
+    //                suwra = require(`../suwar.json`)
+    //            }
+    //        })
+    //
+    //    }
+    //
+    //
+    //}
     function CallPlayerConitner(){
         document.querySelector('.PlayerContainer').querySelectorAll('input').forEach((input)=>{
         input.style.display = 'inline-block'})
@@ -408,10 +451,16 @@ SelectBtn.forEach((btn, i)=>{
             
         }else{
             audio.src = url
-            console.log(url)
+           
         }
     }
-
+    async function GetSizes(i){
+        let arry = suwra
+        const size = ufs(url).then(d => { return d;}).catch(err => {console.log(err.message)})
+        arry[i].size = await size
+        fs.writeFileSync('ahmad_huth', JSON.stringify(arry).replaceAll(',' , ', \n'));
+        suwra = require(`../suwar.json`)[0]
+    }
 
     
         //////////////////////////////////////////////////////////////////////Functions/////////////////////////////////////////

@@ -1,9 +1,29 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron')
 const path = require('path')
 const ipc = ipcMain
+const isDev = require('electron-is-dev');
+const log = require('electron-log');
+const fs = require('fs')
+let logPath
+if (isDev) {
+
+    logPath = path.join(__dirname, '../../../.holyQuranData/log/')
+} else {
+    logPath = path.join(__dirname, '../../../../../../../../.holyQuranData/log/')
+}
+
+if (!fs.existsSync(logPath)) {
+    fs.mkdirSync(logPath);
+}
+
+log.transports.file.resolvePath = () => `${logPath}logs.log`;
+log.log(`app ver : ${app.getVersion()}`)
+const { autoUpdater } = require('electron-updater')
+autoUpdater.logger = log
+
 
 let MainWindow
-console.log(__dirname)
+console.log(logPath)
 const callMainWindow = async() => {
     MainWindow = new BrowserWindow({
         Width: 1000,
@@ -19,7 +39,20 @@ const callMainWindow = async() => {
         }
     })
 
+    if (!isDev) {
+        globalShortcut.register('CommandOrControl+R', () => {
 
+        })
+        globalShortcut.register('CommandOrControl+Shift+R', () => {
+
+        })
+        globalShortcut.register('CommandOrControl+Shift+I', () => {
+
+        })
+        globalShortcut.register('F11', () => {
+
+        })
+    }
 
     MainWindow.loadFile('./src/main.html')
     MainWindow.once('ready-to-show', MainWindow.show)
